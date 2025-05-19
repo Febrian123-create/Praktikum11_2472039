@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Whack a BUG</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f8ff;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    #game-area {
+      position: relative;
+      width: 100%;
+      height: 80vh;
+      overflow: hidden;
+    }
+
+    .bug {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+    }
+
+    #info {
+      text-align: center;
+      font-size: 18px;
+      margin: 10px 0;
+    }
+
+    #final-screen {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: black;
+      color: white;
+      font-size: 32px;
+      font-weight: bold;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+  <h1>Whack a Bug!</h1>
+
+  <div id="game-area"></div>
+
+  <div id="info">
+    <p>Time Left: <span id="timer">30</span>s</p>
+    <p>Score: <span id="score">0</span></p>
+  </div>
+
+  <div id="final-screen">Final Score : <span id="final-score">0</span></div>
+
+
+  <script>
+    $(document).ready(function () {
+      let score = 0;
+      let timeLeft = 10;
+      let gameInterval;
+      let timerInterval;
+
+      function spawnBug() {
+        const bug = $('<img class="bug" src="bug.png">'); 
+        const x = Math.random() * ($('#game-area').width() - 40);
+        const y = Math.random() * ($('#game-area').height() - 40);
+        bug.css({ left: x + 'px', top: y + 'px' });
+
+        $('#game-area').append(bug);
+
+        setTimeout(() => {
+          bug.remove();
+        }, 2000);
+
+        bug.on('click', function () {
+          score++;
+          $('#score').text(score);
+          $(this).remove();
+        });
+      }
+
+      function startGame() {
+        gameInterval = setInterval(spawnBug, 1000);
+        timerInterval = setInterval(() => {
+          timeLeft--;
+          $('#timer').text(timeLeft);
+          if (timeLeft <= 0) {
+            clearInterval(gameInterval);
+            clearInterval(timerInterval);
+            $('.bug').remove();
+
+            $('#final-score').text(score);
+            $('#final-screen').css('display', 'flex').hide().fadeIn(800);
+          }
+        }, 1000);
+      }
+
+      startGame();
+    });
+  </script>
+</body>
+</html>

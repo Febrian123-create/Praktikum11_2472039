@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Increment / Decrement Boxes</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+  html,body{height:100%;margin:0}
+  body{display:flex;justify-content:center;align-items:center;background:#fafafa;font-family:Georgia,serif}
+  .frame{
+    
+    padding:40px 0;
+    width:100%;max-width:900px;
+    display:flex;justify-content:space-around;
+  }
+  .box{
+    width:110px;height:110px;
+    border:6px solid #000;
+    display:flex;justify-content:center;align-items:center;
+    font-size:48px;font-weight:bold;
+    user-select:none;cursor:pointer;
+    background:#ffffff;color:#000;
+  }
+  .green{
+    background:#059a16;
+    color:#ffffff;
+    }
+  .red{
+    background:#b41717;
+    color:#ffffff;
+    }
+</style>
+</head>
+<body>
+
+<div class="frame">
+  <div class="box" data-val="0">0</div>
+  <div class="box" data-val="0">0</div>
+  <div class="box" data-val="0">0</div>
+  <div class="box" data-val="0">0</div>
+  <div class="box" data-val="0">0</div>
+</div>
+
+<script>
+$(function(){
+  $('.box').on('contextmenu',e=>e.preventDefault());     
+
+  $('.box').on('click',function(){
+    update($(this), +$(this).data('val') + 1, 'green');
+  });
+
+  $('.box').on('mousedown',function(e){
+    if(e.which===3){
+      update($(this), +$(this).data('val') - 1, 'red');
+    }
+  });
+
+  function update($el,val,colorClass){
+    $el.data('val',val).text(val);       
+    $el.removeClass('green red')              
+        .css('color', val===0 ? '#000' : '#fff');
+
+    if(val!==0){                              
+      $el.addClass(colorClass);
+    }
+  }
+});
+</script>
+
+</body>
+</html>

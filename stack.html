@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo Stack jQuery - Praktikum Kelas C</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <style>
+    :root{
+      --bg:#F0F2F5;
+      --text:#333333;
+      --white:#ffffff;
+      --green:#4CAF50;
+      --blue:#7BDFF2;
+    }
+    *{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      padding:2rem;
+      gap:2rem;
+    }
+    h1{
+        margin:0;
+        font-size:2rem
+    }
+    #controls{
+      display:flex;
+      gap:1rem;
+    }
+    button{
+      background:green;
+      border:none;
+      color:white;
+      padding:0.75rem 1.5rem;
+      font-size:1rem;
+      border-radius:0.5rem;
+      cursor:pointer;
+    }
+    button:hover{opacity:.85}
+    #stack-container{
+      width:300px;
+      min-height:150px;
+      padding:1rem;
+      display:flex;
+      flex-direction:column;
+      gap:0.5rem;
+      border-radius:0.5rem;
+    }
+    .stack-item{
+      background:var(--blue);
+      color:black;
+      padding:0.75rem 1rem;
+      border-radius:0.5rem;
+      text-align:center;
+      width:200px;
+      margin:0 auto;
+      display:none; 
+    }
+  </style>
+</head>
+<body>
+  <h1>Data Structure -Stack Demo</h1>
+  <div id="controls">
+    <button id="push-btn">Push</button>
+    <button id="pop-btn">Pop</button>
+  </div>
+  <div id="stack-container"></div>
+
+  <script>
+    $(function(){
+      const stack = [];
+
+      function renderStack(){
+        const $container = $('#stack-container');
+        $container.empty();
+        for(let i =stack.length-1;i>=0;i--){
+          const el = $('<div class="stack-item">').text(stack[i]).hide();
+          $container.append(el);
+          el.fadeIn(500);
+        };
+      }
+
+      $('#push-btn').on('click',()=>{
+        const val = prompt('Masukkan data untuk push:');
+        if(val!==null && val.trim()!==''){
+          stack.push(val.trim());
+          renderStack();
+        if(stack.length===0){
+            stack.push(val.trim());
+        }
+        }
+      });
+
+      $('#pop-btn').on('click',()=>{
+        if(stack.length>0){
+          stack.pop();
+          renderStack();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
